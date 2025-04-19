@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container text-center">
+        
+        <div class="w-100 ">
+            <h1 class="mb-4">To-Do List</h1>
+        </div>
+
+        <!-- Form Tambah ToDo -->
+        
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+        </div>
+        <form th:action="@{/add}" th:object="${todo}" method="post" class="row">
+            <div class="d-flex flex-column flex-lg-row gap-3 w-75 mx-auto">
+                <input type="text" th:field="*{task}" class="form-control" placeholder="Masukkan Tugas" required>
+                <input type="datetime-local" th:field="*{date}" class="form-control" />
+                <button type="submit" class="btn btn-primary">Tambah</button>
+            </div>
+        </form>
+
+        <div class="d-flex w-75 mx-auto mt-4">
+            <ul class="list-group text-start mx-auto mt-4 w-100">
+                <li class="list-group-item w-100">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>Task</span>
+                        <span class="d-none d-lg-block">Deadline</span>
+                        <span>Action</span>
+                    </div>
+                </li>
+                <li th:each="todo : ${todos}" class="list-group-item w-100">
+                    <div class="d-flex align-items-center justify-content-between">
+                        
+                        <div class="d-flex flex-column gap-2">
+                            <span th:text="${todo.task}" th:class="${todo.completed} ? 'completed' : ''"></span>
+                            <span th:text="${#temporals.format(todo.date, 'yyyy-MM-dd HH:mm')}" class="d-lg-none" th:classappend="${todo.completed} ? 'completed' : ''"></span>
+                        </div>
+
+                        <span th:text="${#temporals.format(todo.date, 'yyyy-MM-dd HH:mm')}"
+                            class="d-none d-lg-block"
+                            th:classappend="${todo.completed} ? 'completed' : ''">
+                        </span>
+
+                        <div class="d-flex gap-2">
+                            <form th:action="@{/update/{id}(id=${todo.id})}" method="post" style="display:inline;">
+                                <input type="hidden" name="id" th:value="${todo.id}">
+                                <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i></button>
+                            </form>
+                            
+                            <form th:action="@{/delete/{id}(id=${todo.id})}" method="post" style="display:inline;">
+                                <input type="hidden" name="id" th:value="${todo.id}">
+                                <button type="submit" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
