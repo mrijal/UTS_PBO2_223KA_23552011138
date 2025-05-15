@@ -9,7 +9,7 @@
 <ul>
   <li>Nama: Muhammad Rijal</li>
   <li>NIM: 23552011138</li>
-  <li>Studi Kasus: Todo App (catatan)</li>
+  <li>Studi Kasus: Catetin Todo App (catatan)</li>
 </ul>
 
 ## Judul Studi Kasus
@@ -37,6 +37,6 @@ Aplikasi Pencatatan Kegiatan Berbasis Website merupakan sebuah sistem yang diran
 ## Demo Proyek
 <ul>
   <li>Github: <a href="https://github.com/mrijal/UTS_PBO1_223KA_23552011138" target="_blank">Github</a></li>
-  <li>Youtube: <a href="" target="_blank">Youtube</a></li>
+  <li>Youtube: <a href="https://youtu.be/hkDgD_QcavY" target="_blank">Youtube</a></li>
 </ul>
 
