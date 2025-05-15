@@ -33,10 +33,19 @@ public class ToDoController {
     private ToDoRepository todoRepository;
 
     @GetMapping("/")
-    public String showIndex(HttpServletRequest request, Model model) {
+    public String showIndex(HttpServletRequest request, Model model, Principal principal) {
         model.addAttribute("currentUri", request.getRequestURI());
         model.addAttribute("todos", toDoService.getAllTodos());
         model.addAttribute("todo", new ToDo());
+        // add username to show in index.html
+        String username = principal.getName();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        User user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
+        if (user == null) {
+            throw new IllegalArgumentException("User tidak ditemukan");
+        }
+        model.addAttribute("username", user.getUsername());
+        
         return "index";
     }
 
@@ -53,13 +62,21 @@ public class ToDoController {
         }
         model.addAttribute("todos", toDoService.getTodosByUser(user));
         model.addAttribute("todo", new ToDo());
+        model.addAttribute("username", user.getUsername());
         return "todos";
     }
 
     @GetMapping("/todos/create")
-    public String createTodos(HttpServletRequest request, Model model) {
+    public String createTodos(HttpServletRequest request, Model model, Principal principal) {
         model.addAttribute("currentUri", request.getRequestURI());
         model.addAttribute("todo", new ToDo());
+        String username = principal.getName();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        User user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
+        if (user == null) {
+            throw new IllegalArgumentException("User tidak ditemukan");
+        }
+        model.addAttribute("username", user.getUsername());
         return "add-todo";
     }
 
@@ -113,10 +130,17 @@ public class ToDoController {
     }
 
     @GetMapping("/todos/edit/{id}")
-    public String editTodos(@PathVariable Long id, HttpServletRequest request, Model model) {
+    public String editTodos(@PathVariable Long id, HttpServletRequest request, Model model, Principal principal) {
         ToDo todo = todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid todo ID: " + id));
         model.addAttribute("currentUri", request.getRequestURI());
         model.addAttribute("todo", todo);
+        String username = principal.getName();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        User user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
+        if (user == null) {
+            throw new IllegalArgumentException("User tidak ditemukan");
+        }
+        model.addAttribute("username", user.getUsername());
         return "edit-todo";
     }
 

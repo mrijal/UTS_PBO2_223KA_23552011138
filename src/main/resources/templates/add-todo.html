@@ -39,7 +39,7 @@
                 </ul>
 
                 <span class="navbar-text">
-                    <form class="d-flex" th:action="@{/logout}" method="post">
+                    <form class="d-flex align-items-center gap-3" th:action="@{/logout}" method="post"><<span class="text-light fw-bold" th:text="${username}">Username</span>
                         <button type="submit" class="btn btn-danger">Logout</button>
                     </form>
                 </span>
